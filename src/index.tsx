@@ -24,7 +24,7 @@ app.use(
 );
 
 app.get("/", (c) => {
-  return c.render(<h1>Hello World!</h1>);
+  return c.render(<h1>Hello Hono!</h1>);
 });
 
 export default app;
