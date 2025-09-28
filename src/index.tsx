@@ -29,6 +29,7 @@ app.notFound((c) => {
 });
 
 app.onError((error, c) => {
+  c.status(500);
   return c.render(<h1>Error - {error.message}</h1>);
 });
 
