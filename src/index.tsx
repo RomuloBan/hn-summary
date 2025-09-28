@@ -36,6 +36,14 @@ app.get("/", async (c) => {
                 <a href={entry.link} target="_blank" rel="nofollow noopener">
                   Article
                 </a>
+                {" | "}
+                <a
+                  href={entry.comments}
+                  target="_blank"
+                  rel="nofollow noopener"
+                >
+                  Comments
+                </a>
               </header>
               Summary coming soon...
             </article>
