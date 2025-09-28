@@ -14,10 +14,7 @@ app.use(
             href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
           />
         </head>
-        <body>
-          <header>Wow Renderer!</header>
-          <div>{children}</div>
-        </body>
+        <body class="container">{children}</body>
       </html>
     );
   }),
@@ -25,6 +22,10 @@ app.use(
 
 app.get("/", (c) => {
   return c.render(<h1>Hello Hono!</h1>);
+});
+
+app.notFound((c) => {
+  return c.render(<h1>Not found - {c.req.path}</h1>);
 });
 
 export default app;
