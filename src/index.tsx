@@ -28,4 +28,8 @@ app.notFound((c) => {
   return c.render(<h1>Not found - {c.req.path}</h1>);
 });
 
+app.onError((error, c) => {
+  return c.render(<h1>Error - {error.message}</h1>);
+});
+
 export default app;
