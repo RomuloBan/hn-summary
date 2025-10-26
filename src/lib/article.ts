@@ -1,6 +1,7 @@
 import { Readability } from "@mozilla/readability";
 import { parseHTML } from "linkedom";
 import { ArticleSummary } from "../types";
+import DOMPurify from "dompurify";
 
 export async function getArticleAndSummary(options: {
   articlesKV: KVNamespace;
@@ -37,9 +38,13 @@ export async function getArticleAndSummary(options: {
   };
 
   if (article?.content) {
+    const { window } = parseHTML("");
+    const purify = DOMPurify(window);
+    const cleanArticle = purify.sanitize(article.content);
+    const cleanSummary = purify.sanitize(article.excerpt);
     result = {
-      article: article.content,
-      summary: article.excerpt,
+      article: cleanArticle,
+      summary: cleanSummary,
     };
   }
 
