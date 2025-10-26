@@ -34,6 +34,7 @@ app.get("/", async (c) => {
           const result = await getArticleAndSummary({
             url: entry.link!,
             articlesKV: c.env.articles,
+            ai: c.env.AI,
           });
           return (
             <details>

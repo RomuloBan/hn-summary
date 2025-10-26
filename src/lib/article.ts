@@ -2,10 +2,12 @@ import { Readability } from "@mozilla/readability";
 import { parseHTML } from "linkedom";
 import type { ArticleSummary } from "../types";
 import DOMPurify from "dompurify";
+import summarize from "./summarize";
 
 export async function getArticleAndSummary(options: {
   articlesKV: KVNamespace;
   url: string;
+  ai: Ai;
 }) {
   // let result: ArticleSummary | null = null;
   let result = await options.articlesKV.get<ArticleSummary>(
@@ -50,10 +52,11 @@ export async function getArticleAndSummary(options: {
     const { window } = parseHTML("");
     const purify = DOMPurify(window);
     const cleanArticle = purify.sanitize(article.content);
-    const cleanSummary = purify.sanitize(article.excerpt);
+    const summary = await summarize(options.ai, article.content);
+
     result = {
       article: cleanArticle,
-      summary: cleanSummary,
+      summary,
     };
   }
 
