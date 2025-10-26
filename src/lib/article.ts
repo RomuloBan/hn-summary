@@ -1,12 +1,13 @@
 import { Readability } from "@mozilla/readability";
 import { parseHTML } from "linkedom";
-import { ArticleSummary } from "../types";
+import type { ArticleSummary } from "../types";
 import DOMPurify from "dompurify";
 
 export async function getArticleAndSummary(options: {
   articlesKV: KVNamespace;
   url: string;
 }) {
+  // let result: ArticleSummary | null = null;
   let result = await options.articlesKV.get<ArticleSummary>(
     options.url,
     "json",
@@ -23,6 +24,14 @@ export async function getArticleAndSummary(options: {
 
   const html = await response.text();
   const { document } = parseHTML(html);
+  [...document.getElementsByTagName("img")].forEach((link) => {
+    link.src = new URL(link.src, options.url).href;
+  });
+  [...document.getElementsByTagName("a")].forEach((link) => {
+    link.href = new URL(link.href, options.url).href;
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noopener nofollow");
+  });
 
   let reader: Readability | null = null;
   try {
