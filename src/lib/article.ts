@@ -8,9 +8,10 @@ export async function getArticleAndSummary(url: string) {
       cacheEverything: true,
     },
   });
+
   const html = await response.text();
   const { document } = parseHTML(html);
-  console.log("DOCUMET", document);
+
   let reader: Readability | null = null;
   try {
     reader = new Readability(document);

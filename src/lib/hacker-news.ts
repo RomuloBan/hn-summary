@@ -1,13 +1,14 @@
-import { extract, FeedEntry } from "@extractus/feed-extractor";
-const RSS_URL = "https://news.ycombinator.com/rss";
+import { extract, type FeedEntry } from "@extractus/feed-extractor";
+
+export type FeedEntryWithComments = FeedEntry & { comments: string };
 
 export async function getFeed() {
-  const data = await extract(RSS_URL, {
-    getExtraEntryFields(entryData: any) {
+  const data = await extract("https://news.ycombinator.com/rss", {
+    getExtraEntryFields(entryData) {
       return {
-        comments: entryData.comments,
+        comments: (entryData as FeedEntryWithComments).comments,
       };
     },
   });
-  return data.entries as (FeedEntry & { comments: string })[];
+  return data.entries?.slice(0, 10) as FeedEntryWithComments[];
 }
