@@ -10,5 +10,5 @@ export async function getFeed() {
       };
     },
   });
-  return data.entries?.slice(0, 5) as FeedEntryWithComments[];
+  return data.entries?.slice(0, 10) as FeedEntryWithComments[];
 }

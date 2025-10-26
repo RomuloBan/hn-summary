@@ -52,7 +52,9 @@ export async function getArticleAndSummary(options: {
     const { window } = parseHTML("");
     const purify = DOMPurify(window);
     const cleanArticle = purify.sanitize(article.content);
-    const summary = await summarize(options.ai, article.content);
+
+    console.log("Summarizing:", options.url);
+    const summary = await summarize(options.ai, options.url, article.content);
 
     result = {
       article: cleanArticle,
