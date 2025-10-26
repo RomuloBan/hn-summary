@@ -2,8 +2,9 @@ import { Hono } from "hono";
 import { jsxRenderer } from "hono/jsx-renderer";
 import { getFeed } from "./lib/hacker-news";
 import { getArticleAndSummary } from "./lib/article";
+import { AppEnv } from "./types";
 
-const app = new Hono();
+const app = new Hono<AppEnv>();
 
 app.use(
   "*",
@@ -24,11 +25,15 @@ app.use(
 
 app.get("/", async (c) => {
   const items = await getFeed();
+
   return c.render(
     <>
       {await Promise.all(
         items?.map(async (entry) => {
-          const result = await getArticleAndSummary(entry.link!);
+          const result = await getArticleAndSummary({
+            url: entry.link!,
+            articlesKV: c.env.articles,
+          });
           return (
             <details>
               <summary role="button" class="outline contrast">
