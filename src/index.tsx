@@ -29,7 +29,7 @@ app.get("/", async (c) => {
 
   return c.render(
     <>
-      <h1>Hacker News AI Summary</h1>
+      <h1>Hacker News Summary AI</h1>
       {await Promise.all(
         items?.map(async (entry) => {
           const result = await getArticleAndSummary({
