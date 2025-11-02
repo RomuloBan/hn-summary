@@ -1,11 +1,12 @@
 export default async function summarize(ai: Ai, url: string, content: string) {
+  const truncatedContent = content.split(" ").slice(0, 5500).join(" ");
   const doWork = async () => {
     const answer = await ai.run("@cf/mistral/mistral-7b-instruct-v0.1", {
       raw: true,
       messages: [
         {
           role: "user",
-          content: `Summarize the following: ${content}`,
+          content: `Summarize the following: ${truncatedContent}`,
         },
       ],
       lora: "cf-public-cnn-summarization",
